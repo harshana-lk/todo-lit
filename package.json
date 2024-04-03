@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "lit": "^3.1.2",
+    "lit-fontawesome": "^0.1.3",
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
