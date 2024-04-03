@@ -25,13 +25,7 @@ export class MainFooter extends LitElement {
   `;
 
   render() {
-    return html`
-      <div>
-        <a href="#" target="_blank">
-          <img src=${Logo} class="logo" alt="Main logo" />
-        </a>
-      </div>
-    `;
+    return html` <div></div> `;
   }
 }
 

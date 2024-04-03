@@ -1,5 +1,10 @@
 import { css, html, LitElement } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
+
+interface Task {
+  name: string;
+  done: boolean;
+}
 
 @customElement("task-manager")
 export class TaskManager extends LitElement {
@@ -27,7 +32,7 @@ export class TaskManager extends LitElement {
     }
 
     .taskList {
-      height: 35em;
+      height: 25em;
       padding: 1.5em;
       background-color: black;
       border: 2px solid white;
@@ -40,7 +45,7 @@ export class TaskManager extends LitElement {
     .task {
       display: flex;
       justify-content: space-between;
-      padding: 0.5em;
+      //   padding: 0.5em;
       background-color: black;
       //   border: 2px solid white;
       border-radius: 15px;
@@ -86,22 +91,66 @@ export class TaskManager extends LitElement {
       text-align: center;
       font-weight: bold;
     }
+
+    .done {
+      text-decoration: italic line-through;
+    }
   `;
+
+  @property({ type: String }) inputValue = "";
+  @property({ type: Array }) tasks: string[] = [];
+
+  handleInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.inputValue = inputElement.value;
+    console.log(this.inputValue);
+  }
+
+  handleAdd() {
+    if (this.inputValue) {
+      this.tasks = [...this.tasks, this.inputValue];
+      this.inputValue = "";
+    }
+    console.log(this.tasks);
+  }
+
+  handleDelete(task: string) {
+    this.tasks = this.tasks.filter((t) => t !== task);
+  }
+
+  handleDone(task: Task) {
+    task.done = !task.done;
+    this.requestUpdate();
+  }
+
   render() {
     return html`
       <div>
         <div>
-          <input type="text" placeholder="Type here" class="textInput" />
-          <button class="button">+</button>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="textInput"
+            .value=${this.inputValue}
+            @input=${this.handleInput}
+          />
+          <button class="button" @click=${this.handleAdd}>+</button>
         </div>
         <div class="taskList">
-          <div class="task">
-            <p class="task-text">This is a task list</p>
-            <div>
-              <button class="btn-done">Done</button>
-              <button class="btn-delete">Delete</button>
-            </div>
-          </div>
+          ${this.tasks.map(
+            (task) => html` <div class="task">
+              <p class="task-text">${task}</p>
+              <div>
+                <button class="btn-done">Done</button>
+                <button
+                  class="btn-delete"
+                  @click=${() => this.handleDelete(task)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>`
+          )}
         </div>
       </div>
     `;
