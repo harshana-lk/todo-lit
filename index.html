@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit + TS</title>
+    <link rel="stylesheet" href="./src/index.css" />
+    <script type="module" src="/src/task-manager.ts"></script>
+    <script type="module" src="/src/main-navbar.ts"></script>
+    <script type="module" src="/src/main-footer.ts"></script>
+  </head>
+  <body style="background-color: black">
+    <main-navbar></main-navbar>
+    <task-manager
+      style="
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    ></task-manager>
+    <main-footer></main-footer>
+  </body>
+</html>
