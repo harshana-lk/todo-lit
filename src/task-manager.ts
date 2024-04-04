@@ -26,8 +26,8 @@ export class TaskManager extends LitElement {
     if (this.inputValue) {
       this.tasks = [...this.tasks, { name: this.inputValue, done: false }];
       this.inputValue = "";
+      this.saveTasks();
     }
-    this.saveTasks();
     console.log(this.tasks);
   }
 
@@ -38,6 +38,7 @@ export class TaskManager extends LitElement {
 
   handleDone(task: Task) {
     task.done = !task.done;
+    this.requestUpdate();
     this.saveTasks();
   }
 
