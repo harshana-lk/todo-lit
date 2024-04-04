@@ -22,14 +22,14 @@ npm install todo-lit
 Then, import it into your project:
 
 ```bash
-import 'task-manager';
+import 'todo-lit';
 
 ```
 
 # Usage
 
-Once imported, you can use the <task-manager> element in your HTML:
-<task-manager></task-manager>
+Once imported, you can use the <todo-lit> element in your HTML:
+<todo-lit></todo-lit>
 
 # Getting Started
 
@@ -37,7 +37,7 @@ To get started with Task Manager, follow these steps:
 
 1.Install the component in your project as described above.
 
-2.Use the <task-manager> element in your HTML to display the task manager interface.
+2.Use the <todo-lit> element in your HTML to display the task manager interface.
 
 3.Add tasks by typing them into the input field and clicking the Add button.
 
