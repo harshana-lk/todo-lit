@@ -8,6 +8,92 @@ interface Task {
 
 @customElement("task-manager")
 export class TaskManager extends LitElement {
+  @property({ type: String }) inputValue = "";
+  @property({ type: Array }) tasks: Task[] = [];
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.loadTasks();
+  }
+
+  handleInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.inputValue = inputElement.value;
+    console.log(this.inputValue);
+  }
+
+  handleAdd() {
+    if (this.inputValue) {
+      this.tasks = [...this.tasks, { name: this.inputValue, done: false }];
+      this.inputValue = "";
+    }
+    this.saveTasks();
+    console.log(this.tasks);
+  }
+
+  handleDelete(task: Task) {
+    this.tasks = this.tasks.filter((t) => t !== task);
+    this.saveTasks();
+  }
+
+  handleDone(task: Task) {
+    task.done = !task.done;
+    this.saveTasks();
+  }
+
+  saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  }
+
+  loadTasks() {
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    }
+  }
+
+  render() {
+    return html`
+      <div>
+        <div>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="textInput"
+            .value=${this.inputValue}
+            @input=${this.handleInput}
+          />
+          <button class="button" @click=${this.handleAdd}>
+            <p class="btn-add">🔖 ToDo</p>
+          </button>
+        </div>
+        <div class="taskList">
+          ${this.tasks.map(
+            (task) => html` <div class="task">
+              <p
+                class="task-text"
+                style="text-decoration: ${task.done ? "line-through" : "none"}"
+              >
+                ${task.name}
+              </p>
+              <div>
+                <button class="btn-done" @click=${() => this.handleDone(task)}>
+                  Done
+                </button>
+                <button
+                  class="btn-delete"
+                  @click=${() => this.handleDelete(task)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>`
+          )}
+        </div>
+      </div>
+    `;
+  }
+
   static styles = css`
     .textInput {
       width: 70em;
@@ -20,8 +106,8 @@ export class TaskManager extends LitElement {
     }
 
     .button {
-      width: 5em;
-      padding: 1.5em;
+      // width: 5em;
+      padding: 0 1.5em;
       background-color: black;
       border: 2px solid white;
       border-radius: 15px;
@@ -40,6 +126,7 @@ export class TaskManager extends LitElement {
       color: white;
       font-size: small;
       margin-top: 2em;
+      overflow: auto;
     }
 
     .task {
@@ -52,19 +139,18 @@ export class TaskManager extends LitElement {
       color: white;
       font-size: small;
       align-items: center;
-      overflow-x: auto;
-      overflow-y: auto;
+      overflow: auto;
     }
 
     .task-text {
       width: 40em;
-      padding: 1.5em;
+      // padding: 1.5em;
       background-color: black;
       //   border: 2px solid white;
       border-radius: 15px;
       color: white;
       font-size: medium;
-      font-weight: bold;
+      // font-weight: bold;
     }
 
     .btn-delete {
@@ -92,69 +178,22 @@ export class TaskManager extends LitElement {
       font-weight: bold;
     }
 
+    .btn-add {
+      border-radius: 15px;
+      color: white;
+      font-size: small;
+      cursor: pointer;
+      text-align: center;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .done {
       text-decoration: italic line-through;
     }
   `;
-
-  @property({ type: String }) inputValue = "";
-  @property({ type: Array }) tasks: string[] = [];
-
-  handleInput(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    this.inputValue = inputElement.value;
-    console.log(this.inputValue);
-  }
-
-  handleAdd() {
-    if (this.inputValue) {
-      this.tasks = [...this.tasks, this.inputValue];
-      this.inputValue = "";
-    }
-    console.log(this.tasks);
-  }
-
-  handleDelete(task: string) {
-    this.tasks = this.tasks.filter((t) => t !== task);
-  }
-
-  handleDone(task: Task) {
-    task.done = !task.done;
-    this.requestUpdate();
-  }
-
-  render() {
-    return html`
-      <div>
-        <div>
-          <input
-            type="text"
-            placeholder="Type here"
-            class="textInput"
-            .value=${this.inputValue}
-            @input=${this.handleInput}
-          />
-          <button class="button" @click=${this.handleAdd}>+</button>
-        </div>
-        <div class="taskList">
-          ${this.tasks.map(
-            (task) => html` <div class="task">
-              <p class="task-text">${task}</p>
-              <div>
-                <button class="btn-done">Done</button>
-                <button
-                  class="btn-delete"
-                  @click=${() => this.handleDelete(task)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>`
-          )}
-        </div>
-      </div>
-    `;
-  }
 }
 
 declare global {
