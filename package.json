@@ -1,8 +1,24 @@
 {
   "name": "todo-lit",
   "private": false,
-  "version": "0.1.6",
+  "version": "0.1.8",
   "type": "module",
+  "description": "A simple task manager component built with LitElement.",
+  "main": "dist/assets/index.js",
+  "module": "src/task-manager.ts",
+  "types": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harshana-lk/todo-lit.git"
+  },
+  "keywords": [
+    "lit",
+    "component",
+    "task manager",
+    "web component"
+  ],
+  "author": "Harshana Jayaweera",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

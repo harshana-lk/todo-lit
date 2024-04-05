@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import Logo from "./assets/logo.png";
 
 interface Task {
   name: string;
@@ -57,6 +58,11 @@ export class TaskManager extends LitElement {
     return html`
       <div>
         <div>
+          <a href="#" target="_blank">
+            <img src=${Logo} class="logo" alt="Main logo" />
+          </a>
+        </div>
+        <div>
           <input
             type="text"
             placeholder="Type here"
@@ -96,6 +102,23 @@ export class TaskManager extends LitElement {
   }
 
   static styles = css`
+    :host {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      height: 6em;
+      padding: 1.5em;
+      will-change: filter;
+      transition: filter 300ms;
+    }
+    .logo:hover {
+      filter: drop-shadow(0 0 2em #646cffaa);
+    }
+    .logo.lit:hover {
+      filter: drop-shadow(0 0 2em #325cffaa);
+    }
     .textInput {
       width: 70em;
       padding: 1.5em;
